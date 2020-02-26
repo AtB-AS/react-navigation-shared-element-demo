@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {createAppContainer} from 'react-navigation';
-import {TransitionPresets} from 'react-navigation-stack';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
 import {enableScreens} from 'react-native-screens';
 import {MainScreen} from './MainScreen';
@@ -11,68 +11,82 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 enableScreens();
 
-const StackNavigator1 = createSharedElementStackNavigator(
-  {
-    Main: MainScreen,
-    Detail: DetailScreen,
-  },
-  undefined,
-  {
-    name: 'StackNavigator1',
-  },
-);
+const Stack1 = createSharedElementStackNavigator();
 
-const StackNavigator2 = createSharedElementStackNavigator(
-  {
-    Main: {
-      screen: props => <MainScreen {...props} modal />,
-    },
-  },
-  undefined,
-  {
-    name: 'StackNavigator2',
-  },
-);
+const Navigator1 = () => {
+  return (
+    <Stack1.Navigator>
+      <Stack1.Screen
+        name="Main"
+        component={MainScreen}
+        options={{title: 'Normal'}}
+      />
+      <Stack1.Screen name="Detail" component={DetailScreen} />
+    </Stack1.Navigator>
+  );
+};
 
-const TabNavigator = createBottomTabNavigator({
-  Tab1: {
-    screen: StackNavigator1,
-    navigationOptions: {
-      title: 'Stack',
-      tabBarIcon: props => (
-        <Icon name="md-arrow-forward" size={20} color={props.tintColor} />
-      ),
-    },
-  },
-  Tab2: {
-    screen: StackNavigator2,
-    navigationOptions: {
-      title: 'Modal',
-      tabBarIcon: props => (
-        <Icon name="md-arrow-up" size={20} color={props.tintColor} />
-      ),
-    },
-  },
-});
+const Stack2 = createSharedElementStackNavigator();
 
-const RootModalStackNavigator = createSharedElementStackNavigator(
-  {
-    Tabs: TabNavigator,
-    Modal: ModalScreen,
-  },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-    defaultNavigationOptions: {
-      gestureEnabled: true,
-      cardOverlayEnabled: true,
-      ...TransitionPresets.ModalPresentationIOS,
-    },
-  },
-  {
-    name: 'ModalStack',
-  },
-);
+const Navigator2 = () => {
+  return (
+    <Stack2.Navigator>
+      <Stack2.Screen
+        name="Main2"
+        component={props => <MainScreen {...props} modal />}
+        options={{title: 'Modal'}}
+      />
+    </Stack2.Navigator>
+  );
+};
 
-export default createAppContainer(RootModalStackNavigator);
-//export default createAppContainer(StackNavigator1);
+const Tab1 = createBottomTabNavigator();
+
+const TabNavigator = () => {
+  return (
+    <Tab1.Navigator>
+      <Tab1.Screen
+        name="Tab1"
+        component={Navigator1}
+        options={{
+          title: 'Stack',
+          tabBarIcon: props => (
+            <Icon name="md-arrow-forward" size={20} color={props.tintColor} />
+          ),
+        }}
+      />
+      <Tab1.Screen
+        name="Tab2"
+        component={Navigator2}
+        options={{
+          title: 'Modal',
+          tabBarIcon: props => (
+            <Icon name="md-arrow-up" size={20} color={props.tintColor} />
+          ),
+        }}
+      />
+    </Tab1.Navigator>
+  );
+};
+
+const RootStack = createSharedElementStackNavigator();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <RootStack.Navigator
+        mode="modal"
+        headerMode="none"
+        screenOptions={{
+          gestureEnabled: true,
+          cardOverlayEnabled: true,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}>
+        <RootStack.Screen name="Tabs" component={TabNavigator} />
+        <RootStack.Screen name="Modal" component={ModalScreen} />
+      </RootStack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;

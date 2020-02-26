@@ -8,19 +8,20 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
+    "@react-navigation/bottom-tabs": "^5.1.0",
+    "@react-navigation/native": "^5.0.8",
+    "@react-navigation/stack": "^5.1.0",
     "react": "16.9.0",
     "react-native": "0.61.4",
-    "react-native-gesture-handler": "^1.5.3",
+    "react-native-gesture-handler": "^1.6.0",
     "react-native-reanimated": "^1.7.0",
-    "react-native-safe-area-context": "^0.6.2",
-    "react-native-screens": "^2.0.0-beta.2",
+    "react-native-safe-area-context": "^0.7.3",
+    "react-native-screens": "^2.0.1",
     "react-native-shared-element": "^0.5.6",
     "react-native-touchable-scale": "^2.1.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "4",
-    "react-navigation-shared-element": "^2.0.1",
-    "react-navigation-stack": "^2.1.1",
-    "react-navigation-tabs": "^2.7.0"
+    "react-navigation-shared-element": "file:.yalc/react-navigation-shared-element"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
